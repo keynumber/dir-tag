@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cp dir-tag ~/.dir-tag -rf
+source ~/.dir-tag/command.sh
+source ~/.dir-tag/command_complete.sh
+echo source ~/.dir-tag/command.sh               >> ~/.bashrc
+echo source ~/.dir-tag/command_complete.sh      >> ~/.bashrc
