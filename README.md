@@ -2,10 +2,10 @@ install:
     source ./install
 
 usage:
-    gm {tag}       make mark for current dir
+    gm [{tag}]     make mark for current dir (default mark is current directory name)
     gl [{tag}]     list tags or list dir with specific tag
     go {tag}       go to dir with specific tag
-    gd {tag}       del specific tag
+    gd {tag}       del specific tag (default mark is current directory name)
 
     gvim    {tag-path}          # new added
     gcat    {tag-path}          # new added

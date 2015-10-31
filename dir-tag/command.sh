@@ -7,7 +7,7 @@ gg=go
 gm=gm
 gl=gl
 gd=gd
-gv=gv
+gvim=gvim
 gcat=gcat
 gmore=gmore
 gless=gless
@@ -20,7 +20,7 @@ alias $gm='source '$tagtool_path' mark'
 alias $gl='source '$tagtool_path' list'
 alias $gd='source '$tagtool_path' del'
 
-alias $gv='source '$tagtool_path' vim'
+alias $gvim='source '$tagtool_path' vim'
 
 alias $gcat='source '$tagtool_path' cat'
 alias $gmore='source '$tagtool_path' more'
@@ -35,7 +35,7 @@ complete -F CompTag $gg
 complete -F CompTag $gl
 complete -F CompTag $gd
 
-complete -o filenames -F CompTagFile $gv
+complete -o filenames -F CompTagFile $gvim
 
 complete -o filenames -F CompTagFile $gcat
 complete -o filenames -F CompTagFile $gless

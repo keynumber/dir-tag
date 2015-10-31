@@ -54,12 +54,13 @@ function _mark() {
 
 function _delete() {
     param=($*)
-    if (test -z ${param[0]})
+    cur_dir=`pwd`
+    tag=${param[0]}
+    if (test -z $tag)
     then
-        echo 'Usage go del {tag}'
-    else
-        sed -i '/^'$1'\t\t\t/d' $tag_file
+        tag=`basename $cur_dir`
     fi
+    sed -i '/^'$tag'\t\t\t/d' $tag_file
 }
 
 
