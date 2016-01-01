@@ -1,7 +1,32 @@
 #!/bin/bash
 
-cp dir-tag ~/.dir-tag -rf
-source ~/.dir-tag/command.sh
-source ~/.dir-tag/command_complete.sh
-echo source ~/.dir-tag/command.sh               >> ~/.bashrc
-echo source ~/.dir-tag/command_complete.sh      >> ~/.bashrc
+function genBashProfile()
+{
+    echo 'Gen ~/.bash_profile...'
+    cat >> ~/.bash_profile << EOF
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+fi
+EOF
+}
+
+function install()
+{
+    echo 'Install ...'
+    ./uninstall &> /dev/null
+    if [ ! -s ~/.bash_profile ]
+    then
+        genBashProfile
+    fi
+
+    cp ./dir-tag ~/.dir-tag -rf
+    echo 'source ~/.dir-tag/command.sh'               >> ~/.bashrc
+    echo 'source ~/.dir-tag/command-complete.sh'      >> ~/.bashrc
+    source ~/.bashrc
+    echo 'done'
+}
+
+install

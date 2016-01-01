@@ -40,35 +40,39 @@ function GetAbsPathFromTagPath() {
     fi
 }
 
-function GetTipsFromTagPath() {
+function GetFileTipsFromTagPath() {
     local cur_word=$1
     local full_path=`GetAbsPathFromTagPath $cur_word`
     local tag_base=$cur_word
 
-    # escape this case :
-    # test/ test.o test.cpp
-    # if (test ! -d $full_path)
+    # 如果当前输入的标签路径不以"/"结尾，取base_path，和真是相对的路径（去掉不全的部分路径）
     if (test -z `echo $full_path | grep '.*/$'`)
     then
         full_path=`dirname $full_path`'/'
         tag_base=`dirname $cur_word`'/'
     fi
 
+    # ls 添加 -a 选项，支持隐藏文件提示
+    # local tips=($(ls -a --color=no $full_path))
+    # -A 选项不会输出 . 和 ..
+    # -L 选项对于符号链接，使用指向文件信息展示，这样可以将指向目录的链接展示为"name/"
+    # -p 对于目录，在末尾添加"/"
 
+    # 如果tag path指向父目录，那么提示需要全部信息
+    local option="-ALp"
+    if [[ ${cur_word##*/} == ".." ]]
+    then
+        option="-aLp"
+    fi
 
-    local tips=($(ls --color=no $full_path))
+    local tips=($(ls ${option} --color=no $full_path))
     local len=${#tips[@]}
-
     for ((i=0; i<$len; i++))
     do
-        local path=$full_path${tips[i]}
         tips[i]=$tag_base${tips[i]}
-        if (test -d $path)
-        then
-            tips[i]=${tips[i]}'/'
-        fi
     done
-    echo 'tips       ' ${tips[@]}
+
+    echo ${tips[@]}
 }
 
 function CompTagFile() {
@@ -82,16 +86,77 @@ function CompTagFile() {
     then
         CompTagWithOutSpace
     else
-        local tips=`GetTipsFromTagPath $cur_word`
-        COMPREPLY=($(compgen -W '$tips' -- $cur_word))
-        if (test ! -z ${COMPREPLY[0]} && test -z ${COMPREPLY[1]})
+        local tips=(`GetFileTipsFromTagPath $cur_word`)
+        COMPREPLY=($(compgen -W '${tips[@]}' -- $cur_word))
+
+        # 只有一个结果，并且标签路径指向一个目录,添加多一个提示，从而不产生空格
+        if ([ ${#COMPREPLY[@]} -eq 1 ] && [ ! -z `echo ${COMPREPLY[0]} | grep '.*/$'` ])
         then
-            local full_path=`GetAbsPathFromTagPath ${COMPREPLY[0]}`
-            if (test -d $full_path)
-            then
-                COMPREPLY[1]=${COMPREPLY[0]}'/'
-            fi
+            COMPREPLY[1]=${COMPREPLY[0]}'/'
         fi
-        test
+
+    fi
+}
+
+function GetDirTipsFromTagPath() {
+    local cur_word=$1
+    local full_path=`GetAbsPathFromTagPath $cur_word`
+    local tag_base=$cur_word
+
+    # 如果当前输入的标签路径不以"/"结尾，取base_path，和真是相对的路径（去掉不全的部分路径）
+    if (test -z `echo $full_path | grep '.*/$'`)
+    then
+        full_path=`dirname $full_path`'/'
+        tag_base=`dirname $cur_word`'/'
+    fi
+
+    # ls 添加 -a 选项，支持隐藏文件提示
+    # local tips=($(ls -a --color=no $full_path))
+    # -A 选项不会输出 . 和 ..
+    # -L 选项对于符号链接，使用指向文件信息展示，这样可以将指向目录的链接展示为"name/"
+    # -p 对于目录，在末尾添加"/"
+
+    # 如果tag path指向父目录，那么提示需要全部信息
+    local option="-ALp"
+    if [[ ${cur_word##*/} == ".." ]]
+    then
+        option="-aLp"
+    fi
+
+    local tips=($(ls ${option} --color=no $full_path | grep "/$"))
+    local len=${#tips[@]}
+    for ((i=0; i<$len; i++))
+    do
+        tips[i]=$tag_base${tips[i]}
+    done
+
+    echo ${tips[@]}
+}
+
+function CompTagDir() {
+    local cur_word=${COMP_WORDS[COMP_CWORD]}
+    local arr=($(echo $cur_word | tr '/' ' '))
+    local path=`cat $tag_file | awk -F' ' -v key=${arr[0]} 'key==$1{print $2}'`
+
+
+    # get full tag first
+    if (test 0 -eq `expr index $cur_word'x' '/'`)
+    then
+        CompTagWithOutSpace
+    else
+        local tips=(`GetDirTipsFromTagPath $cur_word`)
+        COMPREPLY=($(compgen -W '${tips[@]}' -- $cur_word))
+
+        # 只有一个结果，需要一个提示来阻止输出空格，因为目录下有可能还有目录
+        if [ ${#COMPREPLY[@]} -eq 1 ]
+        then
+            COMPREPLY[1]=${COMPREPLY[0]}'/'
+        fi
+
+        # 如果没有待匹配结果，表示当前目录下已经没有目录，添加当前词，使在匹配结果后输出空格
+        if [ ${#COMPREPLY[@]} -eq 0 ]
+        then
+            COMPREPLY[1]=${cur_word}
+        fi
     fi
 }

@@ -2,42 +2,52 @@
 
 tagtool_path="~/.dir-tag/tag-tool.sh"
 
-# command
-gg=go
+# ------------- version 1 -----------------------
+go=go
 gm=gm
 gl=gl
 gd=gd
-gvim=gvim
-gcat=gcat
-gmore=gmore
-gless=gless
-gtail=gtail
-gcp=gcp
-gmv=gmv
 
-alias $gg='source '$tagtool_path' to'
+alias $go='source '$tagtool_path' to'
 alias $gm='source '$tagtool_path' mark'
 alias $gl='source '$tagtool_path' list'
 alias $gd='source '$tagtool_path' del'
 
-alias $gvim='source '$tagtool_path' vim'
-
-alias $gcat='source '$tagtool_path' cat'
-alias $gmore='source '$tagtool_path' more'
-alias $gless='source '$tagtool_path' less'
-alias $gtail='source '$tagtool_path' tail'
-
-#alias gcp='source '$tagtool_path' cp'
-#alias gmv='source '$tagtool_path' mv'
-
-
-complete -F CompTag $gg
-complete -F CompTag $gl
+complete -o filenames -F CompTagDir $go
+complete -o filenames -F CompTagFile $gl
 complete -F CompTag $gd
 
-complete -o filenames -F CompTagFile $gvim
+
+# ------------- version 2 -----------------------
+gcat=gcat
+gless=gless
+gtail=gtail
+gvim=gvim
+
+alias $gcat='source '$tagtool_path' cat'
+alias $gless='source '$tagtool_path' less'
+alias $gtail='source '$tagtool_path' tail'
+alias $gvim='source '$tagtool_path' vim'
 
 complete -o filenames -F CompTagFile $gcat
 complete -o filenames -F CompTagFile $gless
-complete -o filenames -F CompTagFile $gmore
 complete -o filenames -F CompTagFile $gtail
+complete -o filenames -F CompTagFile $gvim
+
+
+# ------------- version 3 -----------------------
+gcp=gcp
+gdiff=gdiff
+gmv=gmv
+gpwd=gpwd
+
+
+alias gcp='source '$tagtool_path' cp'
+alias gdiff='source '$tagtool_path' diff'
+alias gmv='source '$tagtool_path' mv'
+alias gpwd='source '$tagtool_path' pwd'
+
+complete -o filenames -F CompTagFile $gcp
+complete -o filenames -F CompTagFile $gdiff
+complete -o filenames -F CompTagFile $gmv
+complete -o filenames -F CompTagFile $gpwd
