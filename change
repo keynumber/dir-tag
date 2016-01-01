@@ -1,0 +1,11 @@
+go/gl命令支持标签路径
+
+添加卸载脚本
+
+添加gcp/gpwd/gdiff/gmv命令
+
+添加gvim/gcat/gless/gmore/gtail四个m你高龄
+
+gd和gm命令使用当前目录名作为默认标签
+
+添加go/gm/gd/gl四个命令

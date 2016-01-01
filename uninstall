@@ -1,0 +1,14 @@
+#!/bin/bash
+
+function uninstall()
+{
+    echo 'Uninstall ...'
+
+    rm ~/.dir-tag -rf
+    sed -i '/source ~\/.dir-tag\/command.sh/d' ~/.bashrc
+    sed -i '/source ~\/.dir-tag\/command-complete.sh/d' ~/.bashrc
+
+    echo 'done'
+}
+
+uninstall
