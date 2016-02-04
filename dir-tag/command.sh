@@ -13,7 +13,7 @@ alias $gm='source '$tagtool_path' mark'
 alias $gl='source '$tagtool_path' list'
 alias $gd='source '$tagtool_path' del'
 
-complete -o filenames -F CompTagDir $go
+complete -o filenames -F CompTagFile $go
 complete -o filenames -F CompTagFile $gl
 complete -F CompTag $gd
 
@@ -47,7 +47,7 @@ alias gdiff='source '$tagtool_path' diff'
 alias gmv='source '$tagtool_path' mv'
 alias gpwd='source '$tagtool_path' pwd'
 
-complete -o filenames -F CompTagFile $gcp
-complete -o filenames -F CompTagFile $gdiff
-complete -o filenames -F CompTagFile $gmv
+complete -o filenames -F CompTagFileWithCurDirFile $gcp
+complete -o filenames -F CompTagFileWithCurDirFile $gdiff
+complete -o filenames -F CompTagFileWithCurDirFile $gmv
 complete -o filenames -F CompTagFile $gpwd

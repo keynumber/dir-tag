@@ -143,7 +143,6 @@ function main() {
 
     if (test ! -f $tag_file)
     then
-        echo 'tag file not exists, create ' $tag_file
         touch $tag_file
     fi
 
