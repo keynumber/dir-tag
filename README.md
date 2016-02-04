@@ -12,7 +12,7 @@ source ./install
 ./uninstall
 ```
 
-## usage:
+## 3. usage:
     先声明几个自定义名词。。。
     标签(tag)：目录标签（使用gm对目录打标的标签）
     标签路径(tag-path)：以标签开头的路径，如给家目录打标签为home，家目录下有bin目录，则 home/bin 为标签路径
@@ -36,9 +36,9 @@ source ./install
     gmv   tag-path or dir-path 将文件tag-path和dir-path之间移动
     gdiff tag-path or dir-path 使用vimdiff对比文件tag-path和dir-path
 
-## 3. example
+## 4. example
 ![gif dir-tag example](https://github.com/keynumber/dir-tag/blob/master/dir-tag.gif)
 
-## 4. notice
+## 5. notice
 if you run 'g\*' command in a dir, and there is a sub dir with the name just the tag
 name, a slash('/') will be append to the complete tips automatically ....
