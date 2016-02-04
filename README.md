@@ -1,3 +1,7 @@
+## 0. 这个脚本解决什么问题?
+如果你烦透了频繁的,cd之后一个很长的路径,那么dir-tag能帮助到你,dir-tag能给目录打上标签,然后直接通过标签就能方便跳转了
+花一分钟看下下边的demo,也许你就发现,工具虽小,但是却明在很大程度上提高你的效率
+
 ## 1. insall:
 ``` shell
 source ./install
@@ -32,9 +36,9 @@ source ./install
     gmv   tag-path or dir-path 将文件tag-path和dir-path之间移动
     gdiff tag-path or dir-path 使用vimdiff对比文件tag-path和dir-path
 
-## example
+## 3. example
 ![gif dir-tag example](https://github.com/keynumber/dir-tag/blob/master/dir-tag.gif)
 
-## notice
+## 4. notice
 if you run 'g\*' command in a dir, and there is a sub dir with the name just the tag
 name, a slash('/') will be append to the complete tips automatically ....
